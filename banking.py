@@ -1,4 +1,7 @@
-from card_creator import create_card
+from card import create_card
+
+
+cards = []
 
 
 def print_menu():
@@ -14,7 +17,7 @@ def main_menu():
         print_menu()
         command = input()
         if command == "1":
-            create_card()
+            cards.append(create_card())
         elif command == "2":
             print("Logging in...")
         elif command == "0":

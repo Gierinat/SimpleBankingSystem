@@ -1,6 +1,12 @@
 import random as r
 
 
+class Card:
+    def __init__(self):
+        self.card_number = generate_card_number()
+        self.pin = generate_pin()
+
+
 def generate_card_number():
     mii = "4"
     bin_num = "00000"
@@ -16,10 +22,11 @@ def generate_pin():
 
 
 def create_card():
-    card = generate_card_number()
-    pin = generate_pin()
+    card = Card()
+
     print("Your card has been created")
     print("Your card number:")
-    print(card)
+    print(card.card_number)
     print("Your card PIN:")
-    print(pin)
+    print(card.pin)
+    return card
