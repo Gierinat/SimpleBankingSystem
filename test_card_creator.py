@@ -1,4 +1,4 @@
-import card as cc
+import card_creator as cc
 from unittest import TestCase
 
 

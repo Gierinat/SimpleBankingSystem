@@ -21,7 +21,7 @@ def generate_pin():
     return pin
 
 
-def create_card():
+def card_create():
     card = Card()
 
     print("Your card has been created")
