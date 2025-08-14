@@ -18,9 +18,9 @@ def main_menu():
         command = input()
         if command == "1":
             cards.append(card_create())
-        elif command == "2":
-            card_login(cards)
-        elif command == "0":
+        if command == "2":
+            command = card_login(cards)
+        if command == "0":
             print("Bye!")
 
 

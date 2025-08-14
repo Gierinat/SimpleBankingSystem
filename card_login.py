@@ -12,12 +12,15 @@ def card_operations():
         command = input()
         if command == "1":
             print("Balance: 0")
-        else:
+        elif command == "2":
             print("You have successfully logged out!")
-            break
+            return ""
+        else:
+            return "0"
 
 
 def card_login(cards):
+    operation = ""
     print("Enter your card number:")
     card_number = input()
     print("Enter your PIN:")
@@ -26,6 +29,8 @@ def card_login(cards):
     for card in cards:
         if card.card_number == card_number and card.pin == card_pin:
             print("You have successfully logged in!")
-            card_operations()
+            operation = card_operations()
         else:
             print("Wrong card number or PIN!")
+
+    return operation
