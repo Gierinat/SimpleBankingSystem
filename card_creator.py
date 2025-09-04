@@ -7,11 +7,31 @@ class Card:
         self.pin = generate_pin()
 
 
+# Luhn Algorithm implementation
+# https://hyperskill.org/projects/109/stages/592/implement
+def generate_checksum(card_number):
+    odd_nums_double = [int(n) * 2 for n in card_number[0::2]]
+    odd_clean = list(map(lambda x: x - 9 if x > 9 else x, odd_nums_double))
+    even_nums = [int(n) for n in card_number[1::2]]
+    sum_of_all = sum(odd_clean + even_nums)
+
+    checksum = 0
+    for _ in range(10):
+        if sum_of_all % 10 == 0:
+            return str(checksum)
+        else:
+            checksum += 1
+            sum_of_all += checksum
+
+    return str(checksum)
+
+
 def generate_card_number():
     mii = "4"
     bin_num = "00000"
     can = str(r.randint(0, 999999999)).zfill(9)
-    checksum = str(r.randint(0, 9))
+    card_number = mii + bin_num + can
+    checksum = generate_checksum(card_number)
     card_number = mii + bin_num + can + checksum
     return card_number
 
