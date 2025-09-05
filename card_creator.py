@@ -18,10 +18,10 @@ def generate_checksum(card_number):
     checksum = 0
     for _ in range(10):
         if sum_of_all % 10 == 0:
-            return str(checksum)
+            break
         else:
             checksum += 1
-            sum_of_all += checksum
+            sum_of_all += 1
 
     return str(checksum)
 
@@ -32,7 +32,7 @@ def generate_card_number():
     can = str(r.randint(0, 999999999)).zfill(9)
     card_number = mii + bin_num + can
     checksum = generate_checksum(card_number)
-    card_number = mii + bin_num + can + checksum
+    card_number = card_number + checksum
     return card_number
 
 
