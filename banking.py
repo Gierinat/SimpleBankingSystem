@@ -1,7 +1,9 @@
 from card_creator import card_create
 from card_login import card_login
+from db_handler import connection_maker
 
 cards = []
+con = connection_maker()
 
 
 def print_menu():
