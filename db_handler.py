@@ -8,7 +8,7 @@ def create_tables(connection):
 
     if not result:
         cursor.execute("""CREATE TABLE card(
-            id INTEGER,
+            id INTEGER PRIMARY KEY,
             number TEXT,
             pin TEXT,
             balance INTEGER DEFAULT 0);""")
@@ -21,3 +21,22 @@ def connection_maker():
     con = sqlite3.connect("card.s3db")
     create_tables(con)
     return con
+
+
+def save_card(connection, card):
+    card_details = (card.card_number, card.pin)
+    cursor = connection.cursor()
+    cursor.execute("INSERT INTO card(number, pin) VALUES (?, ?)", card_details)
+    connection.commit()
+    cursor.close()
+
+
+def get_card_by_number_pin(con, num, pin):
+    card_details = (num, pin)
+    cursor = con.cursor()
+    cursor.execute("""SELECT number, pin, balance
+                    FROM card
+                    WHERE number = ?
+                    AND pin = ?""", card_details)
+    card = cursor.fetchone()
+    return card

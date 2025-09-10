@@ -1,28 +1,28 @@
 from card_creator import card_create
 from card_login import card_login
-from db_handler import connection_maker
+from db_handler import connection_maker, save_card
 
 cards = []
-con = connection_maker()
-
 
 def print_menu():
     print("""1. Create an account
 2. Log into account
-0. Exit"""
-          )
+0. Exit""")
 
 
 def main_menu():
+    con = connection_maker()
     command = ""
     while command != "0":
         print_menu()
         command = input()
         if command == "1":
-            cards.append(card_create())
+            card = card_create()
+            save_card(con, card)
         if command == "2":
-            command = card_login(cards)
+            command = card_login(con)
         if command == "0":
+            con.close()
             print("Bye!")
 
 

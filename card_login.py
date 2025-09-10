@@ -1,3 +1,6 @@
+from db_handler import get_card_by_number_pin
+
+
 def print_menu():
     print("""1. Balance
 2. Log out
@@ -19,18 +22,18 @@ def card_operations():
             return "0"
 
 
-def card_login(cards):
+def card_login(con):
     operation = ""
     print("Enter your card number:")
     card_number = input()
     print("Enter your PIN:")
     card_pin = input()
 
-    for card in cards:
-        if card.card_number == card_number and card.pin == card_pin:
-            print("You have successfully logged in!")
-            operation = card_operations()
-        else:
-            print("Wrong card number or PIN!")
+    card = get_card_by_number_pin(con, card_number, card_pin)
+    if card:
+        print("You have successfully logged in!")
+        operation = card_operations()
+    else:
+        print("Wrong card number or PIN!")
 
     return operation

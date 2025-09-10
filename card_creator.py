@@ -5,6 +5,7 @@ class Card:
     def __init__(self):
         self.card_number = generate_card_number()
         self.pin = generate_pin()
+        self.balance = 0
 
 
 # Luhn Algorithm implementation
