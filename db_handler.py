@@ -31,6 +31,14 @@ def save_card(connection, card):
     cursor.close()
 
 
+def update_card(connection, card):
+    card_details = (card.balance, card.card_number, card.pin)
+    cursor = connection.cursor()
+    cursor.execute("UPDATE card SET balance = ? WHERE number = ? AND pin = ?", card_details)
+    connection.commit()
+    cursor.close()
+
+
 def get_card_details_by_number_pin(con, num, pin):
     card_details = (num, pin)
     cursor = con.cursor()

@@ -7,6 +7,12 @@ class Card:
         self.pin = pin if pin else generate_pin()
         self.balance = bal if bal else 0
 
+    def add_money(self, money):
+        if money > 0:
+            self.balance += money
+        else:
+            print("Wrong amount.")
+
 
 # Luhn Algorithm implementation
 # https://hyperskill.org/projects/109/stages/592/implement
