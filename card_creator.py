@@ -2,10 +2,10 @@ import random as r
 
 
 class Card:
-    def __init__(self):
-        self.card_number = generate_card_number()
-        self.pin = generate_pin()
-        self.balance = 0
+    def __init__(self, number=None, pin=None, bal=None):
+        self.card_number = number if number else generate_card_number()
+        self.pin = pin if pin else generate_pin()
+        self.balance = bal if bal else 0
 
 
 # Luhn Algorithm implementation

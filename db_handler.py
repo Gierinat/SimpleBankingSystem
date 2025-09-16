@@ -31,12 +31,12 @@ def save_card(connection, card):
     cursor.close()
 
 
-def get_card_by_number_pin(con, num, pin):
+def get_card_details_by_number_pin(con, num, pin):
     card_details = (num, pin)
     cursor = con.cursor()
     cursor.execute("""SELECT number, pin, balance
                     FROM card
                     WHERE number = ?
                     AND pin = ?""", card_details)
-    card = cursor.fetchone()
-    return card
+    card_db = cursor.fetchone()
+    return card_db

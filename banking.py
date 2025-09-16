@@ -1,8 +1,7 @@
 from card_creator import card_create
-from card_login import card_login
+from card_actions import card_login
 from db_handler import connection_maker, save_card
 
-cards = []
 
 def print_menu():
     print("""1. Create an account
