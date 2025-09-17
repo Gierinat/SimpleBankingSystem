@@ -1,4 +1,5 @@
-from db_handler import get_card_details_by_number_pin, update_card, check_card_exists
+from db_handler import (get_card_details_by_number_pin, update_card, check_card_exists, close_card,
+                        update_card_transfers)
 from card_creator import Card, check_card_number
 
 
@@ -27,6 +28,10 @@ def card_operations(con, card):
             add_income(con, card)
         elif command == "3":
             transfer(con, card)
+        elif command == "4":
+            close_card(con, card)
+            print("The account has been closed!")
+            return ""
         elif command == "5":
             print("You have successfully logged out!")
             return ""
@@ -42,9 +47,10 @@ def card_login(con):
     card_pin = input()
 
     card_details = get_card_details_by_number_pin(con, card_number, card_pin)
-    card = create_card_obj(*card_details)
-    if card:
+
+    if card_details:
         print("You have successfully logged in!")
+        card = create_card_obj(*card_details)
         operation = card_operations(con, card)
     else:
         print("Wrong card number or PIN!")
@@ -68,11 +74,14 @@ Enter card number:""")
     transfer_to_card = input()
 
     if check_card_number(transfer_to_card):
-        if check_card_exists(con, transfer_to_card):
+        check_existence = check_card_exists(con, transfer_to_card)
+        if check_existence:
+            receiver_card = create_card_obj(*check_existence)
             print("Enter how much money you want to transfer:")
             amount = int(input())
             card.subtract_money(amount)
-            update_card(con, card)
+            receiver_card.add_money(amount)
+            update_card_transfers(con, card, receiver_card)
         else:
             print("Such a card does not exist.")
     else:

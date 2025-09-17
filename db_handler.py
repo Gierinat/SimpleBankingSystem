@@ -18,9 +18,10 @@ def create_tables(connection):
 
 
 def connection_maker():
-    con = sqlite3.connect("card.s3db")
-    create_tables(con)
-    return con
+    # con = sqlite3.connect("card.s3db")
+    with sqlite3.connect("card.s3db") as con:
+        create_tables(con)
+        return con
 
 
 def save_card(connection, card):
@@ -35,6 +36,16 @@ def update_card(connection, card):
     card_details = (card.balance, card.card_number, card.pin)
     cursor = connection.cursor()
     cursor.execute("UPDATE card SET balance = ? WHERE number = ? AND pin = ?", card_details)
+    connection.commit()
+    cursor.close()
+
+
+def update_card_transfers(connection, card, card_transfer):
+    card_details = (card.balance, card.card_number)
+    card_transfer_details = (card_transfer.balance, card_transfer.card_number)
+    cursor = connection.cursor()
+    cursor.execute("UPDATE card SET balance = ? WHERE number = ?", card_details)
+    cursor.execute("UPDATE card SET balance = ? WHERE number = ?", card_transfer_details)
     connection.commit()
     cursor.close()
 
@@ -57,7 +68,19 @@ def check_card_exists(con, num):
                     FROM card
                     WHERE number = ?""", card_details)
     card_db = cursor.fetchone()
-    if card_db:
-        return True
-    else:
-        return False
+    return card_db
+
+
+def close_card(con, card):
+    card_details = (card.card_number,)
+    cursor = con.cursor()
+    cursor.execute("DELETE FROM card WHERE number = ?", card_details)
+    con.commit()
+    cursor.close()
+
+
+def balance_all_to_zero(con):
+    cursor = con.cursor()
+    cursor.execute("UPDATE card SET balance = 0;")
+    con.commit()
+    cursor.close()

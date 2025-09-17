@@ -1,6 +1,6 @@
 from card_creator import card_create
 from card_actions import card_login
-from db_handler import connection_maker, save_card
+from db_handler import connection_maker, save_card  #, balance_all_to_zero
 
 
 def print_menu():
@@ -10,19 +10,21 @@ def print_menu():
 
 
 def main_menu():
-    con = connection_maker()
-    command = ""
-    while command != "0":
-        print_menu()
-        command = input()
-        if command == "1":
-            card = card_create()
-            save_card(con, card)
-        if command == "2":
-            command = card_login(con)
-        if command == "0":
-            con.close()
-            print("Bye!")
+    # con = connection_maker()
+    with connection_maker() as con:
+        command = ""
+        while command != "0":
+            print_menu()
+            command = input()
+            if command == "1":
+                card = card_create()
+                save_card(con, card)
+            if command == "2":
+                command = card_login(con)
+            if command == "0":
+                # balance_all_to_zero(con)
+                # con.close()
+                print("Bye!")
 
 
 def main():
