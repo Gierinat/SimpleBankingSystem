@@ -48,3 +48,16 @@ def get_card_details_by_number_pin(con, num, pin):
                     AND pin = ?""", card_details)
     card_db = cursor.fetchone()
     return card_db
+
+
+def check_card_exists(con, num):
+    card_details = (num,)
+    cursor = con.cursor()
+    cursor.execute("""SELECT number, pin, balance
+                    FROM card
+                    WHERE number = ?""", card_details)
+    card_db = cursor.fetchone()
+    if card_db:
+        return True
+    else:
+        return False

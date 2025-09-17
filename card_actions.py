@@ -1,6 +1,5 @@
-from db_handler import get_card_details_by_number_pin
-from db_handler import update_card
-from card_creator import Card
+from db_handler import get_card_details_by_number_pin, update_card, check_card_exists
+from card_creator import Card, check_card_number
 
 
 def print_menu():
@@ -26,6 +25,8 @@ def card_operations(con, card):
             print("Balance:", bal)
         elif command == "2":
             add_income(con, card)
+        elif command == "3":
+            transfer(con, card)
         elif command == "5":
             print("You have successfully logged out!")
             return ""
@@ -59,3 +60,21 @@ def add_income(con, card):
     update_card(con, card)
 
     print("Income was added!")
+
+
+def transfer(con, card):
+    print("""Transfer
+Enter card number:""")
+    transfer_to_card = input()
+
+    if check_card_number(transfer_to_card):
+        if check_card_exists(con, transfer_to_card):
+            print("Enter how much money you want to transfer:")
+            amount = int(input())
+            card.subtract_money(amount)
+            update_card(con, card)
+        else:
+            print("Such a card does not exist.")
+    else:
+        print("Probably you made a mistake in the card number. Please try again!")
+

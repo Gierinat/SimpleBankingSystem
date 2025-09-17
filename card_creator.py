@@ -13,6 +13,13 @@ class Card:
         else:
             print("Wrong amount.")
 
+    def subtract_money(self, money):
+        if self.balance > money:
+            self.balance -= money
+            print("Success!")
+        else:
+            print("Not enough money!")
+
 
 # Luhn Algorithm implementation
 # https://hyperskill.org/projects/109/stages/592/implement
@@ -41,6 +48,16 @@ def generate_card_number():
     checksum = generate_checksum(card_number)
     card_number = card_number + checksum
     return card_number
+
+
+def check_card_number(number):
+    num_digits = number[:15]
+    checksum = number[-1]
+    correct_checksum = generate_checksum(num_digits)
+    if checksum == correct_checksum:
+        return True
+    else:
+        return False
 
 
 def generate_pin():
